@@ -39,7 +39,7 @@
 
                         <div class="form-group mb-3">
                             <label class="form-label" for="emailaddress">Email address</label>
-                            <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                            <input class="form-control" type="email" name="email" id="email" required="" placeholder="Enter your email">
                         </div>
 
                         <div class="form-group mb-3 position-relative">
@@ -48,6 +48,7 @@
                             <input class="form-control pe-5"
                                    type="password"
                                    id="password"
+                                   name="password"
                                    placeholder="Enter your password"
                                    required>
 
@@ -63,21 +64,22 @@
                             </div>
                         </div>
 
-                        <div class="form-group mb-0 text-center">
-                            <button class="btn btn-primary w-100" type="submit"> Log In </button>
-                        </div>
+
 
                     </form>
+                    <div class="form-group mb-0 text-center">
+                        <button class="btn btn-primary w-100" type="submit" id="submit-btn"> Log In </button>
+                    </div>
                 </div> <!-- end card-body -->
             </div>
             <!-- end card -->
 
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <p class="text-white-50"> <a href="pages-register.html" class="text-white-50 ms-1">Forgot your password?</a></p>
-                    <p class="text-white-50">Don't have an account? <a href="pages-register.html" class="text-white font-weight-medium ms-1">Sign Up</a></p>
-                </div> <!-- end col -->
-            </div>
+{{--            <div class="row mt-3">--}}
+{{--                <div class="col-12 text-center">--}}
+{{--                    <p class="text-white-50"> <a href="pages-register.html" class="text-white-50 ms-1">Forgot your password?</a></p>--}}
+{{--                    <p class="text-white-50">Don't have an account? <a href="pages-register.html" class="text-white font-weight-medium ms-1">Sign Up</a></p>--}}
+{{--                </div> <!-- end col -->--}}
+{{--            </div>--}}
             <!-- end row -->
 
         </div> <!-- end col -->
@@ -86,8 +88,11 @@
 </div>
 
 <!-- App js -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{asset('backend/js/vendor.min.js')}}"></script>
 <script src="{{asset('backend/js/app.js')}}"></script>
+
+
 <script>
     const togglePassword = document.querySelector('#togglePassword');
     const password = document.querySelector('#password');
@@ -99,6 +104,56 @@
         this.classList.toggle('mdi-eye-outline');
         this.classList.toggle('mdi-eye-off-outline');
     });
+
+
+    $('#submit-btn').on('click', function () {
+        let email = $('#email').val();
+        let password = $('#password').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/login-post',  // Adjust the URL as needed for your backend
+            data: {
+                email: email,
+                password: password,
+                _token: '{{csrf_token()}}'
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.status == 'error') {
+
+                    swal.fire({
+
+                        text: response.message,
+                        icon: "warning",
+                        showCancelButton: false,
+                        showConfirmButton: true,
+
+                    })
+
+                } else {
+                    window.location.href = '{{ route('dashboard') }}';
+                }
+
+                {{--                    --}}
+            },
+
+            error: function (xhr, status, error) {
+                swal.fire({
+
+                    text: xhr.responseJSON.message,
+                    icon: "error",
+                    showCancelButton: false,
+                    showConfirmButton: true,
+
+                })
+
+
+            }
+        });
+
+    });
+
 </script>
 </body>
 

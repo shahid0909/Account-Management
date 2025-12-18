@@ -237,9 +237,9 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown"
                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="assets/images/users/avatar-4.jpg" alt="user-image" class="rounded-circle">
+{{--                    <img src="assets/images/users/avatar-4.jpg" alt="user-image" class="rounded-circle">--}}
                     <span class="ms-1 d-none d-md-inline-block">
-                                    Jamie D. <i class="mdi mdi-chevron-down"></i>
+                                   {{\Illuminate\Support\Facades\Auth::user()->name}} <i class="mdi mdi-chevron-down"></i>
                                 </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -249,10 +249,10 @@
                     </div>
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-user"></i>
-                        <span>My Account</span>
-                    </a>
+{{--                    <a href="javascript:void(0);" class="dropdown-item notify-item">--}}
+{{--                        <i class="fe-user"></i>--}}
+{{--                        <span>My Account</span>--}}
+{{--                    </a>--}}
 
                     <!-- item-->
 {{--                    <a href="javascript:void(0);" class="dropdown-item notify-item">--}}
@@ -261,15 +261,15 @@
 {{--                    </a>--}}
 
 {{--                    <!-- item-->--}}
-                    <a href="#" class="dropdown-item notify-item">
-                        <i class="fe-lock"></i>
-                        <span>Change Password</span>
-                    </a>
+{{--                    <a href="#" class="dropdown-item notify-item">--}}
+{{--                        <i class="fe-lock"></i>--}}
+{{--                        <span>Change Password</span>--}}
+{{--                    </a>--}}
 
                     <div class="dropdown-divider"></div>
 
                     <!-- item-->
-                    <a href="pages-login.html" class="dropdown-item notify-item">
+                    <a href="{{route('logout')}}" class="dropdown-item notify-item">
                         <i class="fe-log-out"></i>
                         <span>Logout</span>
                     </a>

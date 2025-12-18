@@ -13,3 +13,10 @@
 
 <!-- Dashboard init-->
 <script src="{{asset('backend/js/pages/dashboard.js')}}"></script>
+
+<script src="{{asset('backend/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('backend/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
+<script src="{{asset('backend/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('backend/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+<script src="{{asset('backend/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+<script src="{{asset('backend/js/pages/datatables.js')}}"></script>
