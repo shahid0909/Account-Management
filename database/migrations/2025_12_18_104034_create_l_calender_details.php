@@ -10,12 +10,18 @@ class CreateLCalenderDetails extends Migration
      * Run the migrations.
      *
      * @return void
+     *
      */
     public function up()
     {
         Schema::create('l_calender_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('calender_master_id');
+            $table->date('posting_period_beg_date');
+            $table->date('posting_period_end_date');
+            $table->string('posting_period_display_name');
+            $table->string('posting_period_status');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
 
             $table->foreign('calender_master_id')
@@ -24,6 +30,7 @@ class CreateLCalenderDetails extends Migration
                 ->onDelete('restrict')   // or cascade / set null
                 ->onUpdate('cascade');
         });
+
     }
 
     /**
