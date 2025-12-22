@@ -10,4 +10,10 @@
 <!-- App css -->
 <link href="{{asset('backend/css/style.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('backend/css/icons.min.css')}}" rel="stylesheet" type="text/css">
-<script src="{{asset('backend/js/config.js')}}"></script>
+<link href="{{asset('backend/css/custom.css')}}" rel="stylesheet" type="text/css">
+
+{{-------------------   Date picker--}}
+<link href="{{asset('backend/css/flatpickr.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('backend/css/material_blue.css')}}" rel="stylesheet" type="text/css">
+
+

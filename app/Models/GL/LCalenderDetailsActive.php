@@ -13,6 +13,6 @@ class LCalenderDetailsActive extends Model
 
     public function calender_master()
     {
-        return $this->belongsTo(LCalenderMaster::class, 'calender_master_id');
+        return $this->belongsTo(GlAccMaster::class, 'calender_master_id');
     }
 }

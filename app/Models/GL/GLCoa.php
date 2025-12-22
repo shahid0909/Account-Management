@@ -6,9 +6,9 @@ namespace App\Models\GL;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LGLCategory extends Model
+class GLCoa extends Model
 {
-    protected $table = "l_gl_category";
+    protected $table = "gl_coa";
     protected $primaryKey = "id";
 
     public function glType()

@@ -32,7 +32,8 @@
                             <!-- Left Column -->
                             <div class="col-md-6">
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-dark">Function Type <span class="text-danger">*</span></label>
+                                    <label class="col-sm-4 col-form-label text-dark">Function Type <span
+                                            class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <select class="form-select">
                                             <option>Journal Voucher (GL)</option>
@@ -41,34 +42,54 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-dark">Fiscal Year <span class="text-danger">*</span></label>
+                                    <label class="col-sm-4 col-form-label text-dark">Fiscal Year <span
+                                            class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select class="form-select">
-                                            <option>2025</option>
+                                        <select class="form-select" name="fiscal_year" id="fiscal_year">
+                                            <option value="">Select</option>
+                                            @foreach($fiscalYear as $val)
+                                                <option value="{{$val->id}}">{{$val->fiscal_year}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-dark">Posting Period <span class="text-danger">*</span></label>
+                                    <label class="col-sm-4 col-form-label text-dark">Posting Period <span
+                                            class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <select class="form-select">
-                                            <option>&lt;Select&gt;</option>
+                                            <option><Select></option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-dark">Posting Date <span class="text-danger">*</span></label>
+                                    <label class="col-sm-4 col-form-label text-dark">
+                                        Posting Date <span class="text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control">
+                                        <div class="input-group">
+                                            <input type="text"
+                                                   id="posting_date"
+                                                   name="posting_date"
+                                                   class="form-control datepicker"
+                                                   placeholder="DD-MM-YYYY"
+                                                   autocomplete="off">
+                                            <span class="input-group-text " id="datepicker-btn"
+                                                  style="cursor:pointer;">
+                                                <i class="mdi mdi-calendar text-primary"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+
 
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label text-dark">Document Date</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control">
+                                        <input type="text" class="form-control ps-5 datepicker"
+                                               placeholder="Select date">
                                     </div>
                                 </div>
 
@@ -86,31 +107,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Right Column -->
-{{--                            <div class="col-md-6">--}}
-{{--                             --}}
-
-{{--                                <div class="mb-3 row">--}}
-{{--                                    <label class="col-sm-4 col-form-label">Bill Section <span class="text-danger">*</span></label>--}}
-{{--                                    <div class="col-sm-8">--}}
-{{--                                        <select class="form-select">--}}
-{{--                                            <option>&lt;Select&gt;</option>--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-{{--                                <div class="mb-3 row">--}}
-{{--                                    <label class="col-sm-4 col-form-label">Bill Register <span class="text-danger">*</span></label>--}}
-{{--                                    <div class="col-sm-8">--}}
-{{--                                        <select class="form-select"></select>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                         </div>
 
                         <div class="mb-3">
-                            <label class="f text-dark">Narration <span class="text-danger">*</span></label>
+                            <label class="text-dark">Narration <span class="text-danger">*</span></label>
                             <textarea class="form-control" rows="3"></textarea>
                         </div>
 
@@ -173,5 +173,8 @@
 
         </div>
     </div>
+
+@endsection
+@section('script')
 
 @endsection
