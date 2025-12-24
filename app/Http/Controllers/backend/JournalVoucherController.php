@@ -25,7 +25,7 @@ class JournalVoucherController extends Controller
     {
         $fiscalYear = $this->lookupManager->getCurrentFinancialYear();
 
-        return view('backend.general-ledger.journal_voucher',compact('fiscalYear'));
+        return view('backend.general-ledger.journal.index',compact('fiscalYear'));
     }
 
 

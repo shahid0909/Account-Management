@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AjaxController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\configuration\CaldenderController;
 use App\Http\Controllers\backend\HomeController;
@@ -26,6 +27,11 @@ Route::post('login-post', [AuthController::class, 'loginUser']);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+
+    Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
+        Route::get('/get-current-posting-period', [AjaxController::class, 'getCurrentPostingPeriod'])->name('get-current-posting-period');
+    });
 
 
     //-------------------Calender Setup----------------------------

@@ -1,12 +1,12 @@
 .form-select {
 
-    border: 1px solid #bec0c1;
+    border: 1px solid #bec0c1 !important;
     border-radius: var(--bs-border-radius);
 
 }
 .form-control {
 
-    border: 1px solid #bec0c1;
+    border: 1px solid #bec0c1 !important;
     border-radius: var(--bs-border-radius);
 
 }
