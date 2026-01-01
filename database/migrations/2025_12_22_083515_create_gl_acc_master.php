@@ -26,6 +26,10 @@ class CreateGlAccMaster extends Migration
             $table->double('regular_closing_lcy')->default(0);
             $table->double('current_balance_ccy')->default(0);
             $table->double('current_balance_lcy')->default(0);
+            $table->double('unauth_cr_amount_ccy')->default(0);
+            $table->double('unauth_cr_amount_lcy')->default(0);
+            $table->double('unauth_dr_amount_ccy')->default(0);
+            $table->double('unauth_dr_amount_lcy')->default(0);
             $table->double('special_dr_amount_ccy')->default(0);
             $table->double('special_dr_amount_lcy')->default(0);
             $table->double('ledger_closing_ccy')->default(0);

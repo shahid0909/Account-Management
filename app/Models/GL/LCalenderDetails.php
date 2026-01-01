@@ -1,18 +1,18 @@
-<?php
-
-
-namespace App\Models\GL;
-
-
-use Illuminate\Database\Eloquent\Model;
-
-class LCalenderDetails extends Model
-{
-    protected $table = "l_calender_details";
-    protected $primaryKey = "id";
-
-    public function calender_master()
-    {
-        return $this->belongsTo(GlAccMaster::class, 'calender_master_id');
-    }
-}
+<?php
+
+
+namespace App\Models\GL;
+
+
+use Illuminate\Database\Eloquent\Model;
+
+class LCalenderDetails extends Model
+{
+    protected $table = "l_calender_details";
+    protected $primaryKey = "id";
+
+    public function calender_master()
+    {
+        return $this->belongsTo(GlAccMaster::class, 'calender_master_id');
+    }
+}

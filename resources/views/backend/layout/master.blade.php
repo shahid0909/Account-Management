@@ -49,27 +49,28 @@
     <div class="page-content">
         @include('backend.layout.header')
         @yield('content')
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <script>document.write(new Date().getFullYear())</script>
+                            © Fanush Soft
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end">
+                            <p class="mb-0">Design & Develop by <a href="https://fanushsoft.com/"
+                                                                   target="_blank">Fanush Soft</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </div>
 <!-- END wrapper -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div>
-                    <script>document.write(new Date().getFullYear())</script>
-                    © Fanush Soft
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end">
-                    <p class="mb-0">Design & Develop by <a href="https://fanushsoft.com/"
-                                                           target="_blank">Fanush Soft</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+
 <!-- App js -->
 @include('backend.layout.script')
 @yield('script')

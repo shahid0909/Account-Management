@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend\configuration;
 
 use App\Http\Controllers\Controller;
 use App\Models\GL\GlAccMaster;
+use App\Models\GL\LCalenderMaster;
 use App\Models\l_category;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -22,7 +23,7 @@ class CaldenderController extends Controller
     public function datatable()
     {
 
-        $data = GlAccMaster::with('fiscalPeriod')->orderby('id','desc')->get();  // Fetch the data
+        $data = LCalenderMaster::with('fiscalPeriod')->orderby('id','desc')->get();  // Fetch the data
 
         return DataTables::of($data)
             ->editColumn('fiscalPeriod', function ($query) {

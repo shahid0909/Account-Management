@@ -1,0 +1,32 @@
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = -1000000000,
+    m.current_balance_lcy = -1000000000,
+    m.regular_opening_ccy = -1000000000,
+     m.regular_opening_lcy = -1000000000
+WHERE c.gl_type_id = 1;
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = 1000000000,
+    m.current_balance_lcy = 1000000000,
+    m.regular_opening_ccy = 1000000000,
+     m.regular_opening_lcy = 1000000000
+WHERE c.gl_type_id = 2;
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = -1000000000,
+    m.current_balance_lcy = -1000000000,
+    m.regular_opening_ccy = -1000000000,
+     m.regular_opening_lcy = -1000000000
+WHERE c.gl_type_id = 3;
+
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = 1000000000,
+    m.current_balance_lcy = 1000000000,
+    m.regular_opening_ccy = 1000000000,
+     m.regular_opening_lcy = 1000000000
+WHERE c.gl_type_id = 4;
