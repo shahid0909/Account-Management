@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Contracts\Common\LookupContract;
 
 use App\Http\Controllers\Controller;
+use App\Models\GL\LGlType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -24,9 +25,12 @@ class JournalVoucherController extends Controller
     public function index ()
     {
         $fiscalYear = $this->lookupManager->getCurrentFinancialYear();
+        $acc_type = LGlType::all();
 
-        return view('backend.general-ledger.journal.index',compact('fiscalYear'));
+
+        return view('backend.general-ledger.journal.index',compact('fiscalYear','acc_type'));
     }
+
 
 
 }

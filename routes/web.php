@@ -29,8 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 
-    Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
+    Route::group(['name' => 'ajax', 'as' => 'ajax.'], function () {
         Route::get('/get-current-posting-period', [AjaxController::class, 'getCurrentPostingPeriod'])->name('get-current-posting-period');
+        Route::post('/get-account-details', [AjaxController::class, 'getAccountDetails'])->name('get-account-details');
+        Route::post('/get-account-datatable', [AjaxController::class, 'glAccDatatable'])->name('get-account-datatable');
+        Route::post('/get-account-details', [AjaxController::class, 'glAccDetails'])->name('get-account-details');
     });
 
 

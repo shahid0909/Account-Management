@@ -1,12 +1,33 @@
 .form-select {
 
-    border: 1px solid #bec0c1 !important;
+    border: 1px solid #47626d !important;
     border-radius: var(--bs-border-radius);
+    color : black;
+
 
 }
 .form-control {
 
-    border: 1px solid #bec0c1 !important;
+    border: 1px solid #47626d !important;
     border-radius: var(--bs-border-radius);
+    color : black;
 
 }
+.input-group-text {
+
+    border: 1px solid #47626d !important;
+    color : black;
+
+}
+
+input[readonly],
+textarea[readonly] {
+    background-color: #f2f2f2;   /* light gray */
+    color: #555;                 /* text color */
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
+label {
+    color: #000 !important;
+}
+

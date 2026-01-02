@@ -34,12 +34,12 @@
         </li>
 
         <li class="menu-item">
-            <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+            <a href="#general-ledger" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                 <span class="menu-icon"><i class="bx bx-file"></i></span>
                 <span class="menu-text"> General Ledger</span>
                 <span class="menu-arrow"></span>
             </a>
-            <div class="collapse" id="menuExpages">
+            <div class="collapse" id="general-ledger">
                 <ul class="sub-menu">
                     <li class="menu-item">
                         <a href="{{route('journal-voucher.index')}}" class="menu-link">
