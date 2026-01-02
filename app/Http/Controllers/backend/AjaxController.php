@@ -87,41 +87,28 @@ class AjaxController extends Controller
 
     public function glAccDetails(Request $request){
 
-        dd($request);
-        $value = GLCoa::where('active_yn', 'Y')->where('postable_yn','Y')->get();
-
-        dd($value,$request);
-//
-//
-//        SELECT A.*
-//		FROM FAS.FAS_GL_COA       a
-//		WHERE a.INACTIVE_YN = FAS.getConst('no')
-//        AND	 A.POSTABLE_YN = FAS.getConst('YES')
-//        AND (a.COST_CENTER_ID IS NULL OR a.COST_CENTER_ID = @p_cost_center_id)
-//		and (a.SERVICE_CENTER_ID IS NULL OR a.SERVICE_CENTER_ID=@P_service_center_id)
-//		and (@p_gl_type_id IS NULL OR a.GL_TYPE_ID = @p_gl_type_id)
-//		AND (@p_gl_acc_name IS NULL OR upper(a.gl_acc_name) LIKE '%' + upper(@p_gl_acc_name) + '%')
-//		AND ISNULL(a.GL_SUB_CATEGORY_ID,0) <> FAS.getConst('gl_sub_cat_inter_office_liabilities_ac');
 
         $accountId = $request->post('accId');
-        $accountInfo = $this->lookupManager->findPostingPeriod($accountId);
-        $accountInfo = DB::selectOne("select * from FAS.glGetAccountInfo(:p_gl_acc_id)", ['p_gl_acc_id' => $accountId]);
-
-
-        $partySubLedgers = '';
-        $partyInfo = null;
-        if (isset($accountInfo)) {
-            $ledgers = DB::select("select * from FAS.glGetSubsidiaryLedger (:p_cost_center_id,:p_module_id,:p_gl_acc_id)", ['p_cost_center_id' => $costCenter, 'p_module_id' => $accountInfo->module_id, 'p_gl_acc_id' => $accountId]);
-
-            foreach ($ledgers as $ledger) {
-                $partySubLedgers .= '<option value="' . $ledger->gl_subsidiary_id . '" data-partyparams="' . $ledger->vendor_type_id . '#' . $ledger->vendor_category_id . '#' . $ledger->gl_subsidiary_type . '">' . $ledger->gl_subsidiary_name . '</option>';
-                if ($accountId == GlAccountID::TDS_Tax_Deduction_At_Source_Payable || $accountId == GlAccountID::VDS_Vat_Deduction_At_Source_Payable) {
-                    $partyInfo = DB::selectOne("select * from  FAS.glGetPartyAccountInfo (:p_gl_subsidiary_id,:p_vendor_id,:p_customer_id, :p_cost_center_id)",
-                        ['p_gl_subsidiary_id' => $ledger->gl_subsidiary_id, 'p_vendor_id' => $ledger->vendor_id, 'p_customer_id' => $ledger->customer_id, 'p_cost_center_id' => $costCenter]);
-                }
-            }
-        }
-        return response()->json(['account_info' => $accountInfo, 'sub_ledgers' => $partySubLedgers, 'party_info' => $partyInfo]);
+        $accountInfo = $this->lookupManager->glGetAccountInfo($accountId);
+//        dd($accountInfo);
+//
+//
+//
+//        $partySubLedgers = '';
+//        $partyInfo = null;
+//        if (isset($accountInfo)) {
+//            $ledgers = DB::select("select * from FAS.glGetSubsidiaryLedger (:p_cost_center_id,:p_module_id,:p_gl_acc_id)", ['p_cost_center_id' => $costCenter, 'p_module_id' => $accountInfo->module_id, 'p_gl_acc_id' => $accountId]);
+//
+//            foreach ($ledgers as $ledger) {
+//                $partySubLedgers .= '<option value="' . $ledger->gl_subsidiary_id . '" data-partyparams="' . $ledger->vendor_type_id . '#' . $ledger->vendor_category_id . '#' . $ledger->gl_subsidiary_type . '">' . $ledger->gl_subsidiary_name . '</option>';
+//                if ($accountId == GlAccountID::TDS_Tax_Deduction_At_Source_Payable || $accountId == GlAccountID::VDS_Vat_Deduction_At_Source_Payable) {
+//                    $partyInfo = DB::selectOne("select * from  FAS.glGetPartyAccountInfo (:p_gl_subsidiary_id,:p_vendor_id,:p_customer_id, :p_cost_center_id)",
+//                        ['p_gl_subsidiary_id' => $ledger->gl_subsidiary_id, 'p_vendor_id' => $ledger->vendor_id, 'p_customer_id' => $ledger->customer_id, 'p_cost_center_id' => $costCenter]);
+//                }
+//            }
+//        }
+//        return response()->json(['account_info' => $accountInfo, 'sub_ledgers' => $partySubLedgers, 'party_info' => $partyInfo]);
+        return response()->json(['account_info' => $accountInfo]);
     }
 
 }

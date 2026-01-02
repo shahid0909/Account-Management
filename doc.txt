@@ -1,0 +1,142 @@
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = -1000000000,
+    m.current_balance_lcy = -1000000000,
+    m.regular_opening_ccy = -1000000000,
+     m.regular_opening_lcy = -1000000000
+WHERE c.gl_type_id = 1;
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = 1000000000,
+    m.current_balance_lcy = 1000000000,
+    m.regular_opening_ccy = 1000000000,
+     m.regular_opening_lcy = 1000000000
+WHERE c.gl_type_id = 2;
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = -1000000000,
+    m.current_balance_lcy = -1000000000,
+    m.regular_opening_ccy = -1000000000,
+     m.regular_opening_lcy = -1000000000
+WHERE c.gl_type_id = 3;
+
+
+UPDATE gl_acc_master m
+JOIN gl_coa c ON m.gl_coa_id = c.id
+SET m.current_balance_ccy = 1000000000,
+    m.current_balance_lcy = 1000000000,
+    m.regular_opening_ccy = 1000000000,
+     m.regular_opening_lcy = 1000000000
+WHERE c.gl_type_id = 4;
+
+
+
+
+---------------------------
+
+SELECT TOP (1000) [TRANS_MASTER_ID]
+      ,[MODULE_ID]
+      ,[FUNCTION_ID]
+      ,[TRANS_PERIOD_ID]
+      ,[TRANS_PERIOD_NAME]
+      ,[TRANS_BATCH_ID]
+      ,[TRANS_DATE]
+      ,[DOCUMENT_DATE]
+      ,[DOCUMENT_NO]
+      ,[DOCUMENT_REF]
+      ,[NARRATION]
+      ,[CHEQUE_NO]
+      ,[CHEQUE_DATE]
+      ,[CHALLAN_NO]
+      ,[CHALLAN_DATE]
+      ,[PARTY_ACCOUNT_ID]
+      ,[PARTY_ACCOUNT_NAME]
+      ,[GL_SUBSIDIARY_ID]
+      ,[CUSTOMER_ID]
+      ,[VENDOR_ID]
+      ,[EMP_ID]
+      ,[REVERSAL_TRANS_FLAG]
+      ,[REVERSAL_REF_TRANS_DATE]
+      ,[REVERSAL_REF_TRANS_MASTER_ID]
+      ,[AUTHORIZE_STATUS_ID]
+      ,[AUTHORIZE_BY]
+      ,[AUTHORIZE_DATE]
+      ,[WORKFLOW_APPROVAL_STATUS]
+      ,[WORKFLOW_STATUS_ID]
+      ,[SYSTEM_GENERATED_YN]
+      ,[TRANS_PROCESSED_YN]
+      ,[INSERT_BY]
+      ,[INSERT_DATE]
+      ,[UPDATE_BY]
+      ,[UPDATE_DATE]
+      ,[CHALLAN_TYPE_ID]
+      ,[FISCAL_YEAR_ID]
+      ,[PRE_AUDIT_REQUIRED_YN]
+      ,[PRE_AUDIT_MASTER_ID]
+      ,[PRE_AUDIT_COMMENT]
+      ,[PRE_AUDIT_COMMENT_BY]
+  FROM [jbc_dev].[FAS].[FAS_GL_TRANS_MASTER]
+
+
+SELECT TOP (1000) [TRANS_DETAIL_ID]
+      ,[TRANS_MASTER_ID]
+      ,[MODULE_ID]
+      ,[FUNCTION_ID]
+      ,[TRANS_PERIOD_ID]
+      ,[TRANS_PERIOD_NAME]
+      ,[TRANS_BATCH_ID]
+      ,[TRANS_TRACER_ID]
+      ,[TRANS_DATE]
+      ,[DEPARTMENT_ID]
+      ,[BILL_SEC_ID]
+      ,[BILL_REG_ID]
+      ,[DOCUMENT_DATE]
+      ,[DOCUMENT_NO]
+      ,[DOCUMENT_REF]
+      ,[GL_ACC_ID]
+      ,[DR_CR]
+      ,[CURRENCY_CODE]
+      ,[EXCHANGE_RATE]
+      ,[AMOUNT_TYPE_ID]
+      ,[AMOUNT_CCY]
+      ,[AMOUNT_LCY]
+      ,[NARRATION]
+      ,[GL_BALANCE_CCY]
+      ,[GL_BALANCE_LCY]
+      ,[WITHOUT_CHEQUE_YN]
+      ,[CHEQUE_NO]
+      ,[CHEQUE_DATE]
+      ,[WITHOUT_CHALLAN_YN]
+      ,[CHALLAN_NO]
+      ,[CHALLAN_DATE]
+      ,[PARTY_ACCOUNT_ID]
+      ,[PARTY_ACCOUNT_NAME]
+      ,[GL_SUBSIDIARY_ID]
+      ,[CUSTOMER_ID]
+      ,[VENDOR_ID]
+      ,[EMP_ID]
+      ,[PARTY_BALANCE_CCY]
+      ,[PARTY_BALANCE_LCY]
+      ,[REVERSAL_TRANS_FLAG]
+      ,[REVERSAL_REF_TRANS_DATE]
+      ,[REVERSAL_REF_TRANS_MASTER_ID]
+      ,[AUTHORIZE_STATUS_ID]
+      ,[AUTHORIZE_BY]
+      ,[AUTHORIZE_DATE]
+      ,[TRANS_PROCESSED_YN]
+      ,[SYSTEM_GENERATED_YN]
+      ,[INSERT_BY]
+      ,[INSERT_DATE]
+      ,[UPDATE_BY]
+      ,[UPDATE_DATE]
+      ,[CHALLAN_TYPE_ID]
+      ,[FISCAL_YEAR_ID]
+      ,[COST_CENTER_ID]
+      ,[SERVICE_CENTER_ID]
+      ,[BUDGET_HEAD_ID]
+      ,[DIRECT_BUDGET_YN]
+      ,[BUDGET_BOOKING_ID]
+      ,[BUDGET_BOOKING_DIRECT_ID]
+  FROM [jbc_dev].[FAS].[FAS_GL_TRANS_DETAIL]
