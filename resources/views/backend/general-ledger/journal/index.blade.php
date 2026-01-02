@@ -309,6 +309,7 @@
             document.getElementById('acc_id').value = '';
             document.getElementById('acc_name').value = '';
             document.getElementById('amount_ccy').value = '';
+            document.getElementById('amount_lcy').value = '';
             document.getElementById('acc_balance').value = '';
             document.getElementById('acc_auth_balance').value = '';
             document.getElementById('acc_type').value = '';
@@ -397,7 +398,6 @@
         document.getElementById('journalVoucherForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Final validation
             if (glTableData.length === 0) {
                 Swal.fire('Error', 'Please add at least one transaction row!', 'error');
                 return;
@@ -411,7 +411,6 @@
                 return;
             }
 
-            // Gather form data
             const formData = {
                 fiscal_year: $('#fiscal_year').val(),
                 posting_period: $('#posting_period').val(),
@@ -422,31 +421,45 @@
                 transactions: glTableData
             };
 
+            Swal.fire({
+                title: 'Submitting...',
+                text: 'Please wait!',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
-                url: '{{ route("journal-voucher.store") }}', // Update route
+                url: '{{ route("journal-voucher.store") }}',
                 method: 'POST',
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                beforeSend: function() {
-                    submitBtn.setAttribute('disabled', 'disabled');
-                    submitBtn.textContent = 'Submitting...';
-                },
                 success: function(res) {
-                    Swal.fire('Success', res.message || 'Journal Voucher saved successfully!', 'success');
-                    // Reset form and table
-                    glTableData = [];
-                    renderTable();
-                    document.getElementById('journalVoucherForm').reset();
-                    submitBtn.textContent = 'Submit';
+                    Swal.close(); // Close loader
+                    if(res.status == 1){
+                        Swal.fire('Success', res.message, 'success');
+                        // Reset form and table
+                        glTableData = [];
+                        renderTable();
+                        document.getElementById('journalVoucherForm').reset();
+                    } else {
+                        Swal.fire('Error', res.message, 'error');
+                    }
                 },
-                error: function(xhr) {
-                    console.error(xhr);
-                    Swal.fire('Error', 'An error occurred while saving the voucher.', 'error');
-                    submitBtn.textContent = 'Submit';
-                    checkDebitCreditBalance(); // Recheck balance after error
+                error: function (xhr, status, error) {
+                     Swal.close();
+                    Swal.fire({
+                        text: xhr.responseJSON?.error || 'Something went wrong',
+                        icon: "warning",
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                    });
                 }
+
+
             });
         });
     </script>

@@ -46,6 +46,11 @@
                             <span class="menu-text">Journal Voucher</span>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{route('journal-voucher.list')}}" class="menu-link">
+                            <span class="menu-text">Transaction List</span>
+                        </a>
+                    </li>
 
                 </ul>
             </div>

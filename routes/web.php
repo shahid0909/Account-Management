@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['name' => 'journal-voucher', 'as' => 'journal-voucher.'], function () {
         Route::get('/journal-voucher', [JournalVoucherController::class, 'index'])->name('index');
         Route::post('/journal-voucher-store', [JournalVoucherController::class, 'store'])->name('store');
+        Route::get('/transaction-list', [JournalVoucherController::class, 'listIndex'])->name('list');
+        Route::get('/transaction-datatable', [JournalVoucherController::class, 'datatable'])->name('datatable');
     });
 
 });
