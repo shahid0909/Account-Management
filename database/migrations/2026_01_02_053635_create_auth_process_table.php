@@ -21,6 +21,7 @@ class CreateAuthProcessTable extends Migration
             $table->unsignedBigInteger('auth_user_id');
             $table->unsignedBigInteger('auth_step');
             $table->string('approval_status')->default('P');
+            $table->text('approval_note')->nullable();
             $table->string('process_yn');
             $table->timestamps();
             $table->foreign('auth_key_id')

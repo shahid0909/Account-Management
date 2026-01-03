@@ -97,21 +97,23 @@ class GLProcessManager implements GLProcessContract
             // Generate today's batch and document numbers
             $today = now()->format('dmY');
 
+            // ===== Batch ID =====
             $lastBatch = GL_trans_master::where('trans_batch_id', 'like', $today . '%')
                 ->lockForUpdate()
                 ->orderBy('trans_batch_id', 'desc')
                 ->value('trans_batch_id');
 
-            $batchNo = $lastBatch ? ((int)substr($lastBatch, -3) + 1) : 1;
+            $batchNo = $lastBatch ? ((int) substr($lastBatch, -3) + 1) : 1;
             $transBatchId = $today . str_pad($batchNo, 3, '0', STR_PAD_LEFT);
 
-            $lastDoc = GL_trans_master::where('document_no', 'like', 'DOC-' . $today . '%')
+            // ===== Document No =====
+            $lastDoc = GL_trans_master::where('document_no', 'like', 'JV-' . $today . '%')
                 ->lockForUpdate()
                 ->orderBy('document_no', 'desc')
                 ->value('document_no');
 
-            $docNo = $lastDoc ? ((int)substr($lastDoc, -3) + 1) : 1;
-            $documentNo = 'DOC-' . $today . '-' . str_pad($docNo, 3, '0', STR_PAD_LEFT);
+            $docNo = $lastDoc ? ((int) substr($lastDoc, -3) + 1) : 1;
+            $documentNo = 'JV-' . $today . '-' . str_pad($docNo, 3, '0', STR_PAD_LEFT);
 
             // Save the master record
             $input = new GL_trans_master();

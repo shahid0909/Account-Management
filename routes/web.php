@@ -3,8 +3,10 @@
 use App\Http\Controllers\backend\AjaxController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\configuration\CaldenderController;
+use App\Http\Controllers\backend\GLReportController;
 use App\Http\Controllers\backend\HomeController;
 use App\Http\Controllers\backend\JournalVoucherController;
+use App\Http\Controllers\backend\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +52,23 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/journal-voucher-store', [JournalVoucherController::class, 'store'])->name('store');
         Route::get('/transaction-list', [JournalVoucherController::class, 'listIndex'])->name('list');
         Route::get('/transaction-datatable', [JournalVoucherController::class, 'datatable'])->name('datatable');
+        Route::get('/gl-transaction-pdf/id',[JournalVoucherController::class,'glTransactionPrint'])->name('gl-transaction-print');
+
     });
+    Route::group(['name' => 'transaction', 'as' => 'transaction.'], function () {
+        Route::get('/transaction-authorize', [TransactionController::class, 'index'])->name('index');
+        Route::get('/transaction-authorize-datatable', [TransactionController::class, 'datatable'])->name('datatable');
+        Route::get('/transaction-details/{id}/{moduleId}', [TransactionController::class, 'details'])->name('details');
+//        Route::get('/transaction-list', [JournalVoucherController::class, 'listIndex'])->name('list');
+        });
+
+
+//    ------------------------GL REPORT----------------------
+
+
+    Route::group(['name' => 'gl-report', 'as' => 'gl-report.'], function () {
+        Route::get('/gl-report', [GLReportController::class, 'index'])->name('index');
+        });
+
 
 });

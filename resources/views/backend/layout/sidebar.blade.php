@@ -51,6 +51,16 @@
                             <span class="menu-text">Transaction List</span>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{route('transaction.index')}}" class="menu-link">
+                            <span class="menu-text">Transaction Authorize</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{route('gl-report.index')}}" class="menu-link">
+                            <span class="menu-text">Report</span>
+                        </a>
+                    </li>
 
                 </ul>
             </div>

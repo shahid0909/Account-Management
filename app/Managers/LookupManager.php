@@ -13,11 +13,14 @@ namespace App\Managers;
 
 use App\Contracts\Common\LookupContract;
 
+use App\Models\Authorize_process;
+use App\Models\GL\GL_trans_master;
 use App\Models\GL\GlAccMaster;
 use App\Models\GL\LCalenderDetails;
 
 use App\Models\GL\LCalenderMaster;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -152,6 +155,104 @@ class LookupManager implements LookupContract
         return $data;
     }
 
+
+    public function getAuthorizeDate($module)
+    {
+
+        $data = Authorize_process::where('auth_process.module_id', $module)
+            ->where('auth_user_id', Auth::user()->id)
+            ->where('approval_status', 'P')
+            ->where('process_yn', 'Y')
+            ->join('gl_trans_master as m', 'm.id', '=', 'auth_process.trans_master_id')
+            ->join('l_calender_master as cm', 'cm.id', '=', 'm.fiscal_year_id')
+            ->join('l_calender_details as cd', 'cd.id', '=', 'm.trans_period_id')
+            ->select('auth_process.id as approval_id', 'm.id as trans_gl_id', 'cm.fiscal_year', 'cd.posting_period_display_name as posting_period',
+                'm.trans_date', 'm.trans_batch_id', 'm.trans_date'
+                , 'm.document_date', 'm.document_no', 'm.authorize_status')
+            ->get();
+        return $data;
+
+    }
+
+    public static function getWorkflowStep($approvalId, $module)
+    {
+        $findApproval = Authorize_process::with('authuser:id,name') // createuser na, authuser
+        ->whereRaw('MD5(id) = ?', [$approvalId])
+            ->firstOrFail();
+
+        // সব approval steps + তাদের authuser
+        $findSteps = Authorize_process::with('authuser:id,name')
+            ->where('module_id', $findApproval->module_id)
+            ->where('trans_master_id', $findApproval->trans_master_id)
+            ->orderBy('auth_step', 'asc')
+            ->get();
+
+        // যে user transaction টা initiate করেছে
+        $initiator = GL_trans_master::with('createuser:id,name')
+            ->findOrFail($findApproval->trans_master_id);
+
+        $initiatorName = optional($initiator->createuser)->name ?? 'Unknown';
+
+        // Initiator step (সবসময় প্রথমে)
+        $workflowSteps = collect([
+            [
+                'step_no' => 1,
+                'title'   => 'Initiator',
+                'status'  => 'completed',
+                'user'    => $initiatorName,
+            ]
+        ]);
+
+        // এবার approval steps গুলো process করি
+        $workflowSteps = $workflowSteps->concat(
+            $findSteps->map(function ($step, $index) use ($initiatorName) {
+                // Status determine
+                if ($step->approval_status === 'R') {
+                    $status = 'rejected';
+                } elseif ($step->approval_status === 'A') {
+                    $status = 'completed';
+                } elseif ($step->approval_status === 'P' && $step->process_yn === 'Y') {
+                    $status = 'pending';
+                } else {
+                    $status = 'upcoming';
+                }
+
+                // User: প্রথম step হলে initiator এর নাম, বাকিগুলোতে authuser এর নাম
+                $user = ($step->auth_step == 1)
+                    ? $initiatorName
+                    : optional($step->authuser)->name ?? 'System';
+
+                return [
+                    'step_no' => $index + 2, // initiator পরে 2,3,4...
+                    'title'   => $step->step_name ?? 'Step ' . $step->auth_step,
+                    'status'  => $status,
+                    'user'    => $user,
+                ];
+            })
+        );
+
+         dd($workflowSteps->toArray(), $initiator, $findApproval, $findSteps);
+
+        return $workflowSteps->toArray();
+    }
+    public function getTransDetilsData($approval_id, $module)
+    {
+        $findApproval = Authorize_process::whereRaw('MD5(id) = ?', [$approval_id])->first();
+        $data = '';
+//        $data = Authorize_process::where('auth_process.module_id', $module)
+//            ->where('auth_user_id', Auth::user()->id)
+//            ->where('approval_status', 'P')
+//            ->where('process_yn', 'Y')
+//            ->join('gl_trans_master as m', 'm.id', '=', 'auth_process.trans_master_id')
+//            ->join('l_calender_master as cm', 'cm.id', '=', 'm.fiscal_year_id')
+//            ->join('l_calender_details as cd', 'cd.id', '=', 'm.trans_period_id')
+//            ->select('auth_process.id as approval_id', 'm.id as trans_gl_id', 'cm.fiscal_year', 'cd.posting_period_display_name as posting_period',
+//                'm.trans_date', 'm.trans_batch_id', 'm.trans_date'
+//                , 'm.document_date', 'm.document_no', 'm.authorize_status')
+//            ->get();
+        return $data;
+
+    }
 
 
 }

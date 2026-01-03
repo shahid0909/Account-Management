@@ -31,3 +31,85 @@ label {
     color: #000 !important;
 }
 
+
+     /* ================= Workflow Styles ================= */
+ .workflow-steps {
+     display: flex;
+     justify-content: space-between;
+     list-style: none;
+     padding: 0;
+     margin: 0;
+ }
+.workflow-steps li {
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+.workflow-steps li::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: #dee2e6;
+    z-index: 0;
+}
+.workflow-steps li:last-child::after {
+    display: none;
+}
+.step-circle {
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    background: #dee2e6;
+    color: #495057;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+}
+.step-title {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.step-user {
+    display: block;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* Status Colors */
+.completed .step-circle {
+    background: #198754;
+    color: #fff;
+}
+.active .step-circle {
+    background: #0d6efd;
+    color: #fff;
+}
+.rejected .step-circle {
+    background: #dc3545;
+    color: #fff;
+}
+.pending .step-circle {
+    background: #adb5bd;
+    color: #fff;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .workflow-steps {
+        flex-direction: column;
+    }
+    .workflow-steps li::after {
+        display: none;
+    }
+    .workflow-steps li {
+        margin-bottom: 20px;
+    }
+}
+

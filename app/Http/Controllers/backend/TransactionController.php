@@ -5,7 +5,9 @@ namespace App\Http\Controllers\backend;
 use App\Contracts\Common\LookupContract;
 
 use App\Contracts\GLProcessContract;
+use App\Enum\common;
 use App\Http\Controllers\Controller;
+use App\Models\Authorize_process;
 use App\Models\GL\GL_trans_master;
 use App\Models\GL\LGlType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,9 +15,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class JournalVoucherController extends Controller
+class TransactionController extends Controller
 {
     private $lookupManager;
     private $glProcessManager;
@@ -33,33 +36,21 @@ class JournalVoucherController extends Controller
         $fiscalYear = $this->lookupManager->getCurrentFinancialYear();
         $acc_type = LGlType::all();
 
-
-        return view('backend.general-ledger.journal.index', compact('fiscalYear', 'acc_type'));
+        return view('backend.general-ledger.transaction.index', compact('fiscalYear', 'acc_type'));
     }
 
-    public function store(Request $request)
-    {
-        $val = $this->glProcessManager->journalVoucherEntry($request);
-
-        return $val;
-    }
-    public function listIndex()
-    {
-
-        return view('backend.general-ledger.journal.transactionList');
-    }
 
     public function datatable()
     {
 
-        $data = GL_trans_master::with('fiscal_year','posting_period')->orderby('id','desc')->get();  // Fetch the data
+         $data = $this->lookupManager->getAuthorizeDate(common::GL_MODULE);
 
         return DataTables::of($data)
             ->editColumn('fiscal_year', function ($query) {
-                return $query->fiscal_year->fiscal_year;
+                return $query->fiscal_year;
             })
             ->editColumn('posting_period', function ($query) {
-                return $query->posting_period->posting_period_display_name;
+                return $query->posting_period;
             })
             ->editColumn('posting_date', function ($query) {
                 return date('d-M-Y', strtotime($query->trans_date)) ?? null;
@@ -82,22 +73,29 @@ class JournalVoucherController extends Controller
             })
 
             ->editColumn('action', function ($query) {
-                $editButton = '<a href="#" class="edit-btn" data-id="' . $query->id . '">
-        <button class="btn btn-info btn-sm rounded">View</button>
-    </a>';
 
-                return $editButton;
+                $url = route('transaction.details', [
+                    md5($query->approval_id),
+                    md5(common::GL_MODULE),
+                ]);
+
+                return '
+        <a href="'.$url.'" class="edit-btn" data-id="'.$query->trans_master_id.'">
+            <button class="btn btn-info btn-sm rounded">View</button>
+        </a>
+    ';
             })
 
             ->addIndexColumn()
             ->rawColumns(['approval_status','action'])
             ->make(true);
     }
-    public function glTransactionPrint(Request $request)
-    {
-        $mpdf = new Mpdf();
-        $transactionInfo = GL_trans_master::with(['trans_detail','trans_detail.gl_coa'])->where(['id'=>$request->get('id')])->first();
 
-        $mpdf->generateReport($transactionInfo,'backend.general-ledger.gl_transaction_pdf','transaction'.$transactionInfo->document_no.'.pdf');
+    public function details($approvalId, $moduleId){
+
+        $data = $this->lookupManager->getTransDetilsData($approvalId,$moduleId);
+
+       return view('backend.general-ledger.transaction.view',compact('approvalId','moduleId'));
     }
+
 }
